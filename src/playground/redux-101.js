@@ -1,6 +1,5 @@
 import {createStore} from 'redux';
-
-const store = createStore((state = {
+const countReducer = (state = {
     count: 0
 }, action) => {
     switch (action.type) {
@@ -19,7 +18,8 @@ const store = createStore((state = {
         default:
             return state;
     }
-});
+};
+const store = createStore(countReducer);
 
 // Action Generators
 const incrementCount = ({
