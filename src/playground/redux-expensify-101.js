@@ -18,8 +18,21 @@ const expensesReducer = (state = expensesReducerDefaultState, action) => {
                 ...state,
                 action.expense
             ];
+
         case 'REMOVE_EXPENSE':
             return state.filter((expense) => expense.id !== action.id);
+
+        case "EDIT_EXPENSE":
+            return state.map((expense)=>{
+                if(expense.id === action.id){
+                    return {
+                        ...expense,
+                        ...action.updates
+                    }
+                }
+                return expense
+            })
+
         default:
             return state;
     }
@@ -42,15 +55,29 @@ const addExpense = ({
     }
 });
 
-const removeExpense = ({id} = {}) => ({type: "REMOVE_EXPENSE", id})
+const removeExpense = ({id} = {}) => ({type: "REMOVE_EXPENSE", id});
+
+const editExpense = (id, updates) =>({type:"EDIT_EXPENSE", id, updates});
 
 //Filters Reducer
 const filtersReducer = (state = filtersDefaultState, action) => {
     switch (action.type) {
+        case 'SET_TEXT_FILTER':
+            return{
+                ...state,
+                text: action.textValue
+            }
+
         default:
             return state;
     }
 }
+
+// Action Generators for Filters
+const setTextFilter = (textValue = '') =>({
+    type:'SET_TEXT_FILTER',
+    textValue
+})
 
 // Creating Store using combine reducer
 const store = createStore(combineReducers({expenses: expensesReducer, filters: filtersReducer}));
@@ -63,3 +90,9 @@ const expenseOne = store.dispatch(addExpense({descreption: 'JAnuary Rent', note:
 const expenseTwo = store.dispatch(addExpense({descreption: 'Coffee', note: "Don't drink too  much", amount: 500}));
 
 store.dispatch(removeExpense({id: expenseOne.expense.id}));
+store.dispatch(editExpense(expenseTwo.expense.id , {note: "Don't ", amount: 100}));
+store.dispatch(setTextFilter("rent"));
+store.dispatch(setTextFilter());
+
+
+
