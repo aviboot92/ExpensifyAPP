@@ -1,47 +1,49 @@
 import React from 'react'
 import moment from 'moment';
 import 'react-dates/initialize';
-import { SingleDatePicker } from 'react-dates';
+import {SingleDatePicker} from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 
 export default class ExpenseForm extends React.Component {
-
-    state = {
-        descreption: "",
-        amount: "",
-        note: "",
-        createdAt: moment(),
-        calendarFocused: false,
-        error: false
+    constructor(props) {
+        super(props);
+        this.state = {
+            descreption: props.expense? props.expense.descreption : "",
+            amount: props.expense? (props.expense.amount/100).toString() :"",
+            note: props.expense?props.expense.note:"",
+            createdAt: props.expense? moment(props.expense.createdAt): moment(),
+            calendarFocused: false,
+            error: false
+        }
     }
 
     onDescreptionChange = (e) => {
         const descreption = e.target.value;
         this.setState((prevState) => {
-            return { descreption }
+            return {descreption}
         });
     }
 
     onAmountChange = (e) => {
         const amount = e.target.value;
         if (!amount || amount.match(/^\d{1,}(\.\d{0,2})?$/)) {
-            this.setState(() => ({ amount }));
+            this.setState(() => ({amount}));
         }
     }
 
     onNoteChange = (e) => {
         e.persist();
-        this.setState(() => ({ note: e.target.value }));
+        this.setState(() => ({note: e.target.value}));
     }
 
     onDateChange = (createdAt) => {
         if (createdAt) {
-            this.setState(() => ({ createdAt }));
+            this.setState(() => ({createdAt}));
         }
     };
 
-    onFocusChange = ({ focused }) => {
-        this.setState(() => ({ calendarFocused: focused }));
+    onFocusChange = ({focused}) => {
+        this.setState(() => ({calendarFocused: focused}));
     }
 
     onSubmit = (e) => {
@@ -58,13 +60,18 @@ export default class ExpenseForm extends React.Component {
                     error: false
                 }))
             }
-            this.props.onSubmit({
-                descreption: this.state.descreption,
-                amount: parseFloat(this.state.amount, 10) * 100,
-                createdAt: this.state.createdAt.valueOf(),
-                note: this.state.note
-            });
-            
+            this
+                .props
+                .onSubmit({
+                    descreption: this.state.descreption,
+                    amount: parseFloat(this.state.amount, 10) * 100,
+                    createdAt: this
+                        .state
+                        .createdAt
+                        .valueOf(),
+                    note: this.state.note
+                });
+
         }
     }
 
@@ -78,12 +85,12 @@ export default class ExpenseForm extends React.Component {
                         placeholder="Descreption"
                         autoFocus
                         value={this.state.descreption}
-                        onChange={this.onDescreptionChange} />
+                        onChange={this.onDescreptionChange}/>
                     <input
                         type="text"
                         placeholder="Amount"
                         value={this.state.amount}
-                        onChange={this.onAmountChange} />
+                        onChange={this.onAmountChange}/>
 
                     <SingleDatePicker
                         date={this.state.createdAt}
@@ -92,7 +99,7 @@ export default class ExpenseForm extends React.Component {
                         onFocusChange={this.onFocusChange}
                         numberOfMonths={1}
                         isOutsideRange
-                        ={() => false} />
+                        ={() => false}/>
 
                     <textarea
                         type="textArea"
