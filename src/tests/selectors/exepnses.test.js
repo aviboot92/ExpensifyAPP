@@ -1,7 +1,6 @@
 import getVisibleExpenses from '../../selectors/expenses';
-import expenses from '../../selectors/expenses';
 
-const exepnses = [
+const expenses = [
     {
         id: "1",
         descreption: "Gum",
