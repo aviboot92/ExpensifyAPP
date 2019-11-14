@@ -1,5 +1,4 @@
-import expenses from '../fixtures/expenses';
-import {testNameToKey} from 'jest-snapshot/build/utils';
+import expenses from '../fixtures/expenses'; 
 import expensesReducer from '../../reducers/expenses';
 import moment from 'moment';
 
