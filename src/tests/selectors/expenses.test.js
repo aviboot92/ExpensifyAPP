@@ -48,7 +48,7 @@ test('should filter by endDate', ()=>{
         text: '',
         sortBy: 'date',
         startDate: undefined,
-        endDate: moment(0)
+        endDate: moment(0).add(2 , 'days')
     };
     const result = selectExpenses(expenses, filters);
     expect(result).toEqual([expenses[0], expenses[1]]);
