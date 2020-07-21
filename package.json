@@ -4,11 +4,14 @@
   "main": "index.js",
   "author": "Venkat",
   "license": "MIT",
+  "jest": {
+    "verbose": true
+  },
   "scripts": {
     "server": "live-server public/",
     "build": "webpack",
     "start": "webpack-dev-server",
-    "test": "jest --config=jest.config.json"
+    "test": "jest"
   },
   "dependencies": {
     "@babel/cli": "^7.0.0",
